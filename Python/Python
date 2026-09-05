@@ -36,12 +36,12 @@ HTML_TEMPLATE = """
 </head>
 <body>
     <header>
-        <h1>📚 Construindo o Saber</h1>
-        <div>🛒 Carrinho: <strong>{{ carrinho|length }} itens</strong></div>
+        <h1> Construindo o Saber</h1>
+        <div> Carrinho: <strong>{{ carrinho|length }} itens</strong></div>
     </header>
 
     <div class="container">
-        <h2>🔥 Livros em Alta</h2>
+        <h2> Livros em Alta</h2>
         <div class="grid">
             {% for livro in livros if livro.alta %}
             <div class="card">
@@ -56,7 +56,7 @@ HTML_TEMPLATE = """
             {% endfor %}
         </div>
 
-        <h2>📖 Catálogo Completo</h2>
+        <h2> Catálogo Completo</h2>
         <div class="grid">
             {% for livro in livros %}
             <div class="card">
@@ -71,7 +71,7 @@ HTML_TEMPLATE = """
             {% endfor %}
         </div>
 
-        <h2>🛒 Carrinho e Pagamento</h2>
+        <h2> Carrinho e Pagamento</h2>
         <div class="card">
             <ul>
                 {% for item in carrinho %}
@@ -83,7 +83,7 @@ HTML_TEMPLATE = """
             <h3>Total: R$ {{ total }}</h3>
 
             <hr>
-            <h3>👤 Cadastro e Checkout</h3>
+            <h3> Cadastro e Checkout</h3>
             <form action="/checkout" method="POST">
                 <input type="text" name="nome" placeholder="Nome Completo" required>
                 <input type="email" name="email" placeholder="E-mail" required>
@@ -118,7 +118,7 @@ def add_carrinho(livro_id, tipo):
 @app.route("/checkout", methods=["POST"])
 def checkout():
     carrinho.clear()
-    return "<h1>✅ Pedido Finalizado com Sucesso!</h1><a href='/'>Voltar à Loja</a>"
+    return "<h1> Pedido Finalizado com Sucesso!</h1><a href='/'>Voltar à Loja</a>"
 
 if __name__ == "__main__":
     app.run(debug=True)
