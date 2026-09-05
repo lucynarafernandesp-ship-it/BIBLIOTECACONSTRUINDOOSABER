@@ -1,0 +1,122 @@
+from flask import Flask, render_template_string, request, redirect, url_for
+
+app = Flask(__name__)
+
+# Dados em memória para execução imediata sem dependências externas
+LIVROS = [
+    {"id": 1, "titulo": "O Pequeno Príncipe", "autor": "Saint-Exupéry", "faixa": "Infantil", "venda": 35.0, "aluguel": 7.0, "resumo": "Uma reflexão poética sobre amor e amizade.", "alta": True},
+    {"id": 2, "titulo": "Dom Casmurro", "autor": "Machado de Assis", "faixa": "Adulto", "venda": 45.0, "aluguel": 9.0, "resumo": "A instigante história de Bentinho e Capitu.", "alta": True},
+    {"id": 3, "titulo": "Harry Potter e a Pedra Filosofal", "autor": "J.K. Rowling", "faixa": "Juvenil", "venda": 50.0, "aluguel": 10.0, "resumo": "A descoberta do mundo da magia por um garoto órfão.", "alta": True},
+    {"id": 4, "titulo": "Algoritmos Ilustrados", "autor": "Aditya Bhargava", "faixa": "Adulto", "venda": 80.0, "aluguel": 15.0, "resumo": "Aprenda estrutura de dados de forma simples.", "alta": False}
+]
+
+carrinho = []
+
+HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construindo o Saber</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f6f8; color: #333; }
+        header { background: #1a365d; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .container { padding: 2rem; max-width: 1100px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .badge { background: #e53e3e; color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem; }
+        .btn { background: #2b6cb0; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 0.5rem; }
+        .btn-alugar { background: #2f855a; }
+        details { margin: 0.5rem 0; color: #4a5568; }
+        form input, form select { width: 100%; padding: 0.5rem; margin: 0.5rem 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📚 Construindo o Saber</h1>
+        <div>🛒 Carrinho: <strong>{{ carrinho|length }} itens</strong></div>
+    </header>
+
+    <div class="container">
+        <h2>🔥 Livros em Alta</h2>
+        <div class="grid">
+            {% for livro in livros if livro.alta %}
+            <div class="card">
+                <span class="badge">Destaque</span>
+                <h3>{{ livro.titulo }}</h3>
+                <p><strong>Autor:</strong> {{ livro.autor }}</p>
+                <details><summary>Ver Resumo</summary><p>{{ livro.resumo }}</p></details>
+                <p>Comprar: R$ {{ livro.venda }} | Alugar: R$ {{ livro.aluguel }}</p>
+                <a href="/add/{{ livro.id }}/Venda" class="btn">Comprar</a>
+                <a href="/add/{{ livro.id }}/Aluguel" class="btn btn-alugar">Alugar</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <h2>📖 Catálogo Completo</h2>
+        <div class="grid">
+            {% for livro in livros %}
+            <div class="card">
+                <small>{{ livro.faixa }}</small>
+                <h3>{{ livro.titulo }}</h3>
+                <p><strong>Autor:</strong> {{ livro.autor }}</p>
+                <details><summary>Ver Resumo</summary><p>{{ livro.resumo }}</p></details>
+                <p>Comprar: R$ {{ livro.venda }} | Alugar: R$ {{ livro.aluguel }}</p>
+                <a href="/add/{{ livro.id }}/Venda" class="btn">Comprar</a>
+                <a href="/add/{{ livro.id }}/Aluguel" class="btn btn-alugar">Alugar</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <h2>🛒 Carrinho e Pagamento</h2>
+        <div class="card">
+            <ul>
+                {% for item in carrinho %}
+                <li>{{ item.titulo }} ({{ item.tipo }}) - R$ {{ item.preco }}</li>
+                {% else %}
+                <p>Seu carrinho está vazio.</p>
+                {% endfor %}
+            </ul>
+            <h3>Total: R$ {{ total }}</h3>
+
+            <hr>
+            <h3>👤 Cadastro e Checkout</h3>
+            <form action="/checkout" method="POST">
+                <input type="text" name="nome" placeholder="Nome Completo" required>
+                <input type="email" name="email" placeholder="E-mail" required>
+                <input type="text" name="cpf" placeholder="CPF" required>
+                <label>Forma de Pagamento:</label>
+                <select name="pagamento">
+                    <option value="PIX">PIX (5% de desconto)</option>
+                    <option value="Cartão de Crédito">Cartão de Crédito</option>
+                    <option value="Boleto">Boleto Bancário</option>
+                </select>
+                <button type="submit" class="btn" style="width: 100%; font-size: 1rem;">Finalizar Pedido</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+"""
+
+@app.route("/")
+def index():
+    total = sum(item["preco"] for item in carrinho)
+    return render_template_string(HTML_TEMPLATE, livros=LIVROS, carrinho=carrinho, total=total)
+
+@app.route("/add/<int:livro_id>/<tipo>")
+def add_carrinho(livro_id, tipo):
+    livro = next((l for l in LIVROS if l["id"] == livro_id), None)
+    if livro:
+        preco = livro["venda"] if tipo == "Venda" else livro["aluguel"]
+        carrinho.append({"titulo": livro["titulo"], "tipo": tipo, "preco": preco})
+    return redirect(url_for("index"))
+
+@app.route("/checkout", methods=["POST"])
+def checkout():
+    carrinho.clear()
+    return "<h1>✅ Pedido Finalizado com Sucesso!</h1><a href='/'>Voltar à Loja</a>"
+
+if __name__ == "__main__":
+    app.run(debug=True)
