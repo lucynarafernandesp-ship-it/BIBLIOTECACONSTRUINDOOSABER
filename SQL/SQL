@@ -1,0 +1,53 @@
+CREATE DATABASE IF NOT EXISTS db_construindo_saber;
+USE db_construindo_saber;
+
+DROP TABLE IF EXISTS item_pedido;
+DROP TABLE IF EXISTS pedido;
+DROP TABLE IF EXISTS livro;
+DROP TABLE IF EXISTS cliente;
+
+CREATE TABLE cliente (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    cpf VARCHAR(14) UNIQUE NOT NULL,
+    telefone VARCHAR(20)
+);
+
+CREATE TABLE livro (
+    id_livro INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(150) NOT NULL,
+    autor VARCHAR(100) NOT NULL,
+    faixa_etaria VARCHAR(20) NOT NULL, -- 'Infantil', 'Juvenil', 'Adulto'
+    modalidade VARCHAR(20) NOT NULL,   -- 'Venda', 'Aluguel', 'Ambos'
+    preco_venda DECIMAL(10,2) DEFAULT 0.00,
+    preco_aluguel DECIMAL(10,2) DEFAULT 0.00,
+    resumo TEXT NOT NULL,
+    em_alta BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE pedido (
+    id_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    data_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
+    forma_pagamento VARCHAR(30) NOT NULL, -- 'PIX', 'Cartão de Crédito', 'Boleto'
+    total DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente) ON DELETE CASCADE
+);
+
+CREATE TABLE item_pedido (
+    id_item INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT NOT NULL,
+    id_livro INT NOT NULL,
+    tipo_transacao VARCHAR(10) NOT NULL, -- 'Venda' ou 'Aluguel'
+    preco_unitario DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido) ON DELETE CASCADE,
+    FOREIGN KEY (id_livro) REFERENCES livro(id_livro) ON DELETE CASCADE
+);
+
+-- Massa de dados
+INSERT INTO livro (titulo, autor, faixa_etaria, modalidade, preco_venda, preco_aluguel, resumo, em_alta) VALUES
+('O Pequeno Príncipe', 'Antoine de Saint-Exupéry', 'Infantil', 'Ambos', 35.00, 7.00, 'Uma história mágica sobre amizade e amor.', TRUE),
+('Dom Casmurro', 'Machado de Assis', 'Adulto', 'Ambos', 45.00, 9.00, 'A clássica dúvida sobre a traição de Capitu.', TRUE),
+('Harry Potter e a Pedra Filosofal', 'J.K. Rowling', 'Juvenil', 'Ambos', 50.00, 10.00, 'O início da jornada do garoto bruxo.', TRUE),
+('Algoritmos Ilustrados', 'Aditya Bhargava', 'Adulto', 'Venda', 80.00, 0.00, 'Um guia ilustrado e prático para computação.', FALSE);
