@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Construindo o Saber — Livraria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-bar">
+    <a class="brand" href="#" onclick="mostrarView('home');return false;"><span>&#128214;</span> Construindo o Saber</a>
+
+    <nav class="main-nav" id="mainNav">
+      <button onclick="mostrarView('home')" data-view="home">Início</button>
+      <button onclick="mostrarView('catalogo')" data-view="catalogo">Catálogo</button>
+      <button onclick="mostrarView('cadastro')" data-view="cadastro">Minha Conta</button>
+    </nav>
+
+    <div class="header-actions">
+      <span id="userChip" style="font-size:0.85rem;color:#D8D2BC;"></span>
+      <button class="icon-btn" onclick="abrirCarrinho()" title="Carrinho">
+        &#128722;
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="hamburger" onclick="toggleMobileNav()">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== HOME ===================== -->
+<section class="view active" id="view-home">
+  <div class="hero">
+    <div class="container">
+      <div>
+        <div class="hero-eyebrow-free">Sua próxima leitura está aqui</div>
+        <h1>Compre ou alugue histórias para todas as idades</h1>
+        <p class="lead">Catálogo com curadoria por gênero e faixa etária, resumo de cada livro antes de decidir, e checkout em poucos cliques — na web ou no celular.</p>
+        <div class="hero-stack">
+          <button class="btn btn-accent" onclick="mostrarView('catalogo')">Ver catálogo completo</button>
+          <button class="btn btn-outline" onclick="mostrarView('cadastro')">Criar minha conta</button>
+        </div>
+      </div>
+      <div class="hero-visual" id="heroVisual"></div>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top:48px;">
+    <div class="section-heading">
+      <h2>Livros em alta</h2>
+      <span class="hint">Os mais lidos e alugados esta semana</span>
+    </div>
+    <div class="shelf" id="shelfEmAlta"></div>
+  </div>
+
+  <div class="container" style="margin-top:44px;">
+    <div class="section-heading">
+      <h2>Navegue por categoria</h2>
+      <span class="hint">Encontre pelo gênero que você mais gosta</span>
+    </div>
+    <div class="chip-list" id="categoriasHome"></div>
+  </div>
+</section>
+
+<!-- ===================== CATÁLOGO ===================== -->
+<section class="view" id="view-catalogo">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Catálogo</h2>
+      <span class="hint" id="catalogoContagem"></span>
+    </div>
+
+    <div class="catalog-layout">
+      <aside class="filters">
+        <input type="text" class="search-box" id="buscaInput" placeholder="Buscar por título...">
+
+        <div class="filter-group">
+          <h4>Tipo de livro</h4>
+          <div class="chip-list" id="filtroCategorias"></div>
+        </div>
+
+        <div class="filter-group">
+          <h4>Faixa etária</h4>
+          <div class="chip-list" id="filtroFaixas"></div>
+        </div>
+
+        <button class="btn btn-outline" style="width:100%; color:var(--primary); border-color:var(--border);" onclick="limparFiltros()">Limpar filtros</button>
+      </aside>
+
+      <div class="catalog-grid" id="catalogoGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CADASTRO / LOGIN ===================== -->
+<section class="view" id="view-cadastro">
+  <div class="container">
+    <div class="form-card">
+      <div class="tabs">
+        <button class="tab-btn active" id="tabCadastro" onclick="alternarAba('cadastro')">Criar conta</button>
+        <button class="tab-btn" id="tabLogin" onclick="alternarAba('login')">Já tenho conta</button>
+      </div>
+
+      <form id="formCadastro" onsubmit="handleCadastro(event)">
+        <div class="form-row">
+          <label>Nome completo</label>
+          <input type="text" id="cadNome" required>
+        </div>
+        <div class="form-row">
+          <label>E-mail</label>
+          <input type="email" id="cadEmail" required>
+        </div>
+        <div class="form-two-col">
+          <div class="form-row">
+            <label>Senha</label>
+            <input type="password" id="cadSenha" required minlength="4">
+          </div>
+          <div class="form-row">
+            <label>Telefone</label>
+            <input type="tel" id="cadTelefone" placeholder="(00) 00000-0000">
+          </div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;" type="submit">Criar minha conta</button>
+        <div class="form-feedback" id="cadastroFeedback"></div>
+      </form>
+
+      <form id="formLogin" onsubmit="handleLogin(event)" style="display:none;">
+        <div class="form-row">
+          <label>E-mail</label>
+          <input type="email" id="loginEmail" required>
+        </div>
+        <div class="form-row">
+          <label>Senha</label>
+          <input type="password" id="loginSenha" required>
+        </div>
+        <button class="btn btn-primary" style="width:100%;" type="submit">Entrar</button>
+        <div class="form-feedback" id="loginFeedback"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>&copy; 2026 Construindo o Saber — livraria e locadora de livros.</span>
+    <span>Feito para leitores de todas as idades.</span>
+  </div>
+</footer>
+
+<!-- ===================== MODAL: RESUMO DO LIVRO ===================== -->
+<div class="overlay" id="bookOverlay" onclick="if(event.target===this) fecharModalLivro()">
+  <div class="book-modal">
+    <button class="modal-close" onclick="fecharModalLivro()">&times;</button>
+    <img id="modalCapa" src="" alt="">
+    <div class="modal-body">
+      <div class="modal-tags" id="modalTags"></div>
+      <h2 id="modalTitulo"></h2>
+      <div id="modalAutor" style="color:var(--text-soft); font-size:0.9rem; margin-top:-8px;"></div>
+      <p class="modal-summary" id="modalResumo"></p>
+
+      <div class="modal-purchase">
+        <div class="purchase-option">
+          <div>
+            <strong id="modalPrecoVenda"></strong>
+            <div style="font-size:0.78rem;color:var(--text-soft);">Comprar e ficar com o livro</div>
+          </div>
+          <button class="btn btn-primary" id="btnComprar" onclick="adicionarAoCarrinhoModal('venda')">Comprar</button>
+        </div>
+        <div class="purchase-option" id="opcaoAluguel">
+          <div>
+            <strong id="modalPrecoAluguel"></strong>
+            <div class="rent-days">
+              por
+              <select id="diasAluguel">
+                <option value="7">7 dias</option>
+                <option value="15">15 dias</option>
+                <option value="30">30 dias</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-brick" onclick="adicionarAoCarrinhoModal('aluguel')">Alugar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DRAWER: CARRINHO ===================== -->
+<div class="overlay" id="cartOverlay" onclick="if(event.target===this) fecharCarrinho()"></div>
+<aside class="drawer" id="cartDrawer">
+  <div class="drawer-header">
+    <h3 style="margin:0;">Seu carrinho</h3>
+    <button class="modal-close" onclick="fecharCarrinho()">&times;</button>
+  </div>
+  <div class="drawer-items" id="cartItemsList"></div>
+  <div class="drawer-footer">
+    <div class="total-row"><span>Total</span><span id="cartTotal">R$ 0,00</span></div>
+    <div id="paymentBlock" style="display:none;">
+      <div class="payment-options" id="paymentOptions"></div>
+      <button class="btn btn-accent" style="width:100%;" onclick="finalizarCompra()">Confirmar e pagar</button>
+    </div>
+    <button class="btn btn-primary" style="width:100%;" id="btnIrPagamento" onclick="mostrarPagamento()">Finalizar compra</button>
+    <div class="form-feedback" id="checkoutFeedback"></div>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
