@@ -1,1 +1,87 @@
+# Estudo de Viabilidade — Biblioteca Construindo o Saber
 
+## Índice
+
+1. [Identificação](#1-identificação)
+2. [O Sistema](#2-o-sistema)
+3. [Viabilidade Técnica](#3-viabilidade-técnica)
+4. [Viabilidade Econômica](#4-viabilidade-econômica)
+5. [Viabilidade Operacional](#5-viabilidade-operacional)
+6. [Conclusão](#6-conclusão)
+
+---
+
+## 1. Identificação
+
+| Campo | Preencher |
+|---|---|
+| Grupo | Construindo o Saber |
+| Integrantes | Lucynara Fernandes, Ícaro Magalhães |
+| Disciplina | Engenharia de Software I |
+| Semana | 2 |
+| Data | 20/09/2026 |
+
+---
+
+## 2. O Sistema
+
+Plataforma web e mobile de e-commerce e catálogo dinâmico para a biblioteca "Construindo o Saber", com suporte a compra/aluguel de livros, filtros por categoria/faixa etária, resumos interativos e fluxo de checkout integrado.
+
+Requisitos já consolidados no `requisitos.md`:
+
+| ID | Descrição |
+|---|---|
+| RF-01 | O sistema deve permitir que o usuário busque e filtre livros por categoria, autor, faixa etária e disponibilidade para compra ou aluguel. |
+| RF-02 | O sistema deve disponibilizar resumos interativos e prévias de leitura das obras cadastradas. |
+| RF-03 | O sistema deve processar o aluguel e a venda de livros através de um fluxo de checkout online integrado. |
+| RF-04 | O sistema deve permitir que os administradores gerenciem o acervo (cadastro, edição, remoção de títulos e controle de estoque/exemplares). |
+
+| ID | Categoria | Descrição |
+|---|---|---|
+| RNF-01 | Desempenho | O tempo de carregamento da busca do catálogo e aplicação de filtros não deve exceder 2 segundos em conexões padrão. |
+| RNF-02 | Segurança | Os dados cadastrais e de pagamento dos usuários devem ser transmitidos e armazenados utilizando criptografia segura (HTTPS / SSL e hash no banco). |
+| RNF-03 | Usabilidade | A interface web e mobile deve ser responsiva e intuitiva, permitindo concluir um aluguel/compra em até 4 etapas. |
+| RNF-04 | Portabilidade | O aplicativo web deve ser acessível e responsivo em navegadores modernos desktop e dispositivos móveis (Android/iOS). |
+
+---
+
+## 3. Viabilidade Técnica
+
+A equipe possui conhecimento técnico no desenvolvimento web/mobile e na estruturação de banco de dados relacional para gestão de catálogos. No entanto, o projeto apresenta desafios e riscos específicos no fluxo de e-commerce.
+
+O RNF-01 (busca e filtros em até 2 segundos) exige uma modelagem eficiente do banco de dados relacional e indexação adequada dos campos de busca (como título, autor e categoria), evitando lentidão à medida que o volume de livros e leitores aumente.
+
+O maior risco técnico reside na implementação do RF-03 e RNF-02 (fluxo de checkout integrado com transação financeira e segurança criptografada). A integração com provedores externos de pagamento (gateways de cartão/PIX) requer tratamento cuidadoso de retornos de API e conformidade com normas de proteção de dados.
+
+**Risco identificado:** Concorrência no controle de estoque de exemplares disponíveis para aluguel simultâneo e falhas de integração com a API externa do gateway de pagamento.  
+**Mitigação:** Implementação de controle de transação e locks otimistas no banco de dados para reserva de exemplares; escolha de um gateway de pagamento consolidado e bem documentado no mercado, realizando testes de homologação desde o início do desenvolvimento.
+
+---
+
+## 4. Viabilidade Econômica
+
+Os custos principais do projeto concentram-se no esforço inicial de desenvolvimento da aplicação (frontend responsivo e backend de gerenciamento de acervo) e custos recorrentes de infraestrutura (hospedagem em nuvem, domínio e taxas por transação do gateway de pagamento).
+
+Os benefícios esperados incluem a expansão do alcance da biblioteca para além do espaço físico, automação de processos manuais de aluguel/venda, redução de custos operacionais com atendimento presencial e geração de receita direta via checkout online.
+
+Como os custos de infraestrutura e gateway aumentam proporcionalmente ao uso do sistema, e os benefícios trazem ganhos diretos de eficiência e faturamento, a viabilidade financeira é positiva e sustentável no médio e longo prazo.
+
+---
+
+## 5. Viabilidade Operacional
+
+O público leitor já está amplamente habituado com plataformas de e-commerce e aplicativos de leitura, resultando em uma baixa curva de aprendizado para uso dos filtros e checkout (alinhado ao RNF-03).
+
+O ponto mais sensível do ponto de vista operacional está na transição da equipe interna da biblioteca para o gerenciamento digital do acervo (RF-04). Funcionários habituados a controles manuais podem necessitar de treinamento inicial para realizar a baixa de exemplares alugados, controle de estoque e conferência de pedidos de venda.
+
+Para mitigar esse ponto, a interface administrativa deve focar na simplicidade e usabilidade, disponibilizando painéis claros para a operação diária.
+
+---
+
+## 6. Conclusão
+
+- [ ] Viável
+- [x] Viável com ressalvas
+- [ ] Não viável
+
+O projeto da plataforma **Biblioteca Construindo o Saber** apresenta viabilidade técnica, econômica e operacional clara. As ressalvas concentram-se na necessidade de validação e testes antecipados do gateway de pagamento e segurança da informação (viabilidade técnica), além de garantir uma curva de aprendizado suave para os funcionários no gerenciamento do acervo digital (viabilidade operacional).
