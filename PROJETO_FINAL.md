@@ -45,8 +45,11 @@ Na Semana 2 foi realizado o processo de elicitação de requisitos, considerando
 - **RNF-03 — Usabilidade:** A interface web e mobile deve ser responsiva e intuitiva, permitindo concluir um aluguel ou compra em até 4 etapas.
 - **RNF-04 — Portabilidade:** O aplicativo web deve ser acessível e responsivo em navegadores modernos desktop e dispositivos móveis Android/iOS.
 
-O estudo de viabilidade considerou as dimensões técnica, econômica e operacional do projeto, analisando a possibilidade de implementação do sistema diante dos requisitos levantados e dos recursos necessários para seu desenvolvimento.
+O estudo de viabilidade analisou o projeto nas dimensões técnica, econômica e operacional. Na dimensão técnica, foram considerados especialmente os desafios relacionados ao desempenho, controle de estoque e integração segura com serviços de pagamento. Na dimensão econômica, foram avaliados os custos de desenvolvimento, infraestrutura e operação em relação aos benefícios esperados. Na dimensão operacional, foram considerados a utilização do sistema pelos leitores e o processo de adaptação dos funcionários ao gerenciamento digital do acervo.
 
+Como conclusão, o projeto foi classificado como **viável com ressalvas**, principalmente pela necessidade de validação e testes antecipados do gateway de pagamento e dos mecanismos de segurança da informação, além da necessidade de facilitar a adaptação dos funcionários ao gerenciamento digital do acervo.
+
+🔗 [Requisitos da Semana 2](Semana%202/requisitos.md)  
 🔗 [Material da Semana 2](Semana%202/)
 
 ---
@@ -71,16 +74,21 @@ O Diagrama de Classes representa a estrutura principal do sistema e as relaçõe
 
 ### Diagramas de Sequência
 
-Os diagramas de sequência representam o fluxo de interação entre o usuário e os componentes do sistema para a execução de funcionalidades específicas. Cada integrante do grupo é responsável pela elaboração de um fluxo diferente.
+Os diagramas de sequência representam o fluxo de interação entre os participantes do sistema para a execução de funcionalidades específicas. Cada integrante do grupo elaborou um fluxo diferente.
 
-**Ícaro Magalhães — Comprar ou Alugar Livro**
+#### Ícaro Magalhães — Comprar ou Alugar Livro
+
+O diagrama representa o fluxo de compra ou aluguel de uma obra, envolvendo a consulta do livro e do exemplar, criação do pedido e processamento do pagamento.
 
 🔗 [Arquivo Draw.io](semana3/ddiagrama-sequencia-comprar-alugar-livro-icaro.drawio)  
 🖼️ [Visualizar PNG](semana3/diagrama-sequencia-comprar-alugar-livro-icaro.png)
 
-**Lucynara Fernandes — Diagrama de Sequência**
+#### Lucynara Fernandes — Gerenciar Acervo
 
-A ser adicionado após a conclusão do diagrama individual.
+O diagrama representa uma ação administrativa de gerenciamento do acervo, contemplando o cadastro de livro e o controle da quantidade de exemplares disponíveis.
+
+🔗 [Arquivo Draw.io](semana3/diagrama-sequencia-gerenciar-acervo-lucynara.drawio)  
+🖼️ [Visualizar PNG](semana3/diagrama-sequencia-gerenciar-acervo-lucynara.png)
 
 🔗 [Pasta completa da Semana 3](semana3/)
 
@@ -88,15 +96,17 @@ A ser adicionado após a conclusão do diagrama individual.
 
 ## 6. Modelo de Processo (Semana 4)
 
-Para o desenvolvimento da Biblioteca Construindo o Saber, o grupo adotaria uma abordagem ágil, utilizando o framework Scrum. Essa escolha se justifica porque os requisitos do sistema podem evoluir ao longo do projeto, principalmente a partir de novas necessidades dos usuários, administradores e instituições parceiras. Além disso, uma equipe pequena pode organizar o trabalho em ciclos curtos, acompanhando continuamente o que já foi desenvolvido e priorizando as próximas funcionalidades.
+Para o desenvolvimento da Biblioteca Construindo o Saber, o grupo adotaria uma abordagem ágil, utilizando o framework **Scrum**. Essa escolha se justifica pela estabilidade parcial dos requisitos, uma vez que as funcionalidades principais estão definidas, mas novas necessidades podem surgir durante a evolução do sistema.
 
-O modelo em cascata foi descartado por pressupor etapas mais sequenciais e oferecer menor flexibilidade diante de alterações nos requisitos. O modelo incremental permitiria entregar o sistema em partes, sendo uma alternativa possível, mas a abordagem ágil foi considerada mais adequada por favorecer revisões frequentes e adaptação contínua.
+Outro fator considerado é o perfil da equipe. Por se tratar de uma equipe pequena, a organização do trabalho em ciclos curtos favorece a divisão das atividades, o acompanhamento do desenvolvimento e a revisão frequente das funcionalidades implementadas.
 
-Com Scrum, o trabalho seria organizado em Sprints, com um backlog contendo os requisitos e funcionalidades priorizados. Novas necessidades seriam analisadas e incorporadas ao backlog para planejamento das próximas Sprints.
+O modelo em cascata foi descartado por organizar o desenvolvimento em etapas predominantemente sequenciais e oferecer menor flexibilidade diante de mudanças. O modelo incremental também seria uma alternativa possível, pois permitiria desenvolver o sistema gradualmente, mas a abordagem ágil foi considerada mais adequada por favorecer revisões frequentes das prioridades e adaptação contínua dos requisitos.
 
-No cenário de mudança proposto para o sistema, a integração com outras bibliotecas seria tratada como uma nova necessidade do produto. Os requisitos afetados seriam revistos, novas funcionalidades seriam incluídas no backlog e os ajustes nos artefatos do projeto seriam planejados para as Sprints seguintes.
+Com Scrum, o trabalho pode ser organizado em **Sprints**, enquanto os requisitos e funcionalidades são registrados e priorizados em um **Product Backlog**. Dessa forma, novas necessidades podem ser analisadas e incorporadas ao planejamento das Sprints seguintes.
 
-🔗 [Material da Semana 4](semana4/)
+No cenário de mudança proposto para o sistema, a integração com outras bibliotecas seria registrada como uma nova necessidade do produto. Os requisitos e artefatos afetados seriam revistos e as alterações necessárias seriam priorizadas no Product Backlog.
+
+🔗 [Modelo de Processo — Semana 4](semana4/modelo-processo.md)
 
 ---
 
@@ -144,7 +154,7 @@ Os Diagramas de Sequência já produzidos continuam válidos para representar os
 
 #### Modelo de processo
 
-A escolha de uma abordagem ágil com Scrum continua adequada e não precisa ser substituída. O cenário reforça a necessidade de um processo capaz de absorver mudanças nos requisitos. As novas funcionalidades e regras seriam registradas e priorizadas no backlog e desenvolvidas nas Sprints seguintes.
+A escolha de uma abordagem ágil com Scrum continua adequada e não precisa ser substituída. O cenário reforça a necessidade de um processo capaz de absorver mudanças nos requisitos. As novas funcionalidades e regras seriam registradas e priorizadas no Product Backlog e desenvolvidas nas Sprints seguintes.
 
 #### Elementos que permanecem válidos
 
